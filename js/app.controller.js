@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onSearchLocation = onSearchLocation;
 window.onDeleteLocation = onDeleteLocation;
+window.onCopyLink = onCopyLink;
 
 function onInit() {
   mapService
@@ -78,4 +79,7 @@ function onDeleteLocation(id) {
   onGetLocs();
 }
 
-
+function onCopyLink() {
+  navigator.clipboard.writeText('https://saharzig123.github.io/travel-tip/?lat=0&lng=0');
+  alert('Link was copied to the clipboard');
+}

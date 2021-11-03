@@ -101,11 +101,11 @@ input {
 .my-locations {
   border: 2px solid black;
   margin-top: 15px;
-  height: 100px;
+  height: fit-content;
 }
 
 .user-pos {
-  height: 100px;
+  height: fit-content;
   border: 2px solid black;
   margin-top: 15px;
 }
