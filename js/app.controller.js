@@ -67,3 +67,5 @@ function onSearchLocation() {
   document.querySelector('.search-input').value = '';
   searchRes.then(res => locService.addToLocs(res));
 }
+
+

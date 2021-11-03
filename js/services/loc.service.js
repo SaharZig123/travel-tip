@@ -21,10 +21,32 @@ function getLocs() {
 }
 
 function addToLocs(res) {
-    locs.push({ id: res.place_id, name: res.formatted_address, lat: res.geometry.location.lat, lng: res.geometry.location.lng, weather: 0, createdAt: Date.now(), updatedAt: 0 });
+    locs.push({ 
+        id: res.place_id, 
+        name: res.formatted_address, 
+        lat: res.geometry.location.lat, 
+        lng: res.geometry.location.lng, 
+        weather: '', 
+        createdAt: Date.now(), 
+        updatedAt: 0 
+    });
     console.log(locs);
     storageService.save(KEY, locs);
 }
+// function saveLocation(position){
+//     locs.push({
+//         id:0,
+//         name:prompt("location name"),
+//         lat:position.lat,
+//         lng:position.lng,
+//         weather:'',
+//         createdAt:Date.now(),
+//         updatedAt:''
+
+//     })
+//     console.log(locs);
+// }
+
 
 
 function getLocation(val) {
