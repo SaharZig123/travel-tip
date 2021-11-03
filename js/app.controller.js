@@ -1,13 +1,12 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
-window.onload = onInit
-window.onAddMarker = onAddMarker
-window.onPanTo = onPanTo
-window.onGetLocs = onGetLocs
-window.onGetUserPos = onGetUserPos
-window.onChangeSearch = onChangeSearch
-window.onSearchLocation = onSearchLocation
+window.onload = onInit;
+window.onAddMarker = onAddMarker;
+window.onPanTo = onPanTo;
+window.onGetLocs = onGetLocs;
+window.onGetUserPos = onGetUserPos;
+window.onSearchLocation = onSearchLocation;
 
 function onInit() {
   mapService
@@ -32,9 +31,12 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
+  let strHtml = `<tr><td>Place Name</td><td>Place Id</td><td>lat</td><td>lng</td></tr>`;
   locService.getLocs().then((locs) => {
-    console.log('Locations:', locs)
-    document.querySelector('.locs').innerText = JSON.stringify(locs)
+    locs.forEach(loc => {
+      strHtml += `<tr><td>${loc.name}</td><td>${loc.id}</td><td>${loc.lat}</td><td>${loc.lng}</td></tr>`;
+    })
+    document.querySelector('.locs').innerHTML = strHtml;
   })
 }
 
@@ -51,16 +53,19 @@ function onGetUserPos() {
     })
 }
 function onPanTo() {
-  console.log('Panning the Map')
-  mapService.panTo(35.6895, 139.6917)
+  console.log('Panning the Map');
+  mapService.panTo(35.6895, 139.6917);
 }
 
-function onChangeSearch(value) {
-  console.log(value)
-  return value
-}
-function onSearchLocation(value) {
-  console.log(locService.getLocation(value).then((res) => res))
+function onSearchLocation() {
+  let searchWords = document.querySelector('.search-input').value;
+  console.log(searchWords);
+  console.log(locService.getLocation(searchWords).then(res => res));
+  let searchRes = locService.getLocation(searchWords);
+  searchRes.then(res => res.geometry.location)
+    .then(res => mapService.panTo(res));
+  document.querySelector('.search-input').value = '';
+  searchRes.then(res => locService.addToLocs(res));
 }
 
 

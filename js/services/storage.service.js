@@ -1,6 +1,6 @@
 export const storageService = {
-  saveToStorage,
-  loadFromStorage
+  load: loadFromStorage,
+  save: saveToStorage
 }
 
 function saveToStorage(key, val) {

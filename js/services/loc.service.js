@@ -1,15 +1,16 @@
 export const locService = {
     getLocs,
-    saveLocation
+    getLocation,
+    addToLocs
 }
 
-import { storageService } from './storage-service.js'
-
-const KEY='My Locations'
-
+import { storageService } from './storage.service.js'
 
 // {id, name, lat, lng, weather, createdAt, updatedAt}
-const locs = storageService.loadFromStorage(KEY) || []
+
+const KEY = 'locations-list';
+var locs = storageService.load(KEY) || [];
+
 
 function getLocs() {
     return new Promise((resolve, reject) => {
@@ -19,9 +20,21 @@ function getLocs() {
     });
 }
 
+function addToLocs(res) {
+    locs.push({ 
+        id: res.place_id, 
+        name: res.formatted_address, 
+        lat: res.geometry.location.lat, 
+        lng: res.geometry.location.lng, 
+        weather: '', 
+        createdAt: Date.now(), 
+        updatedAt: 0 
+    });
+    console.log(locs);
+    storageService.save(KEY, locs);
+}
 // function saveLocation(position){
-  
-//     let location={
+//     locs.push({
 //         id:0,
 //         name:prompt("location name"),
 //         lat:position.lat,
@@ -30,10 +43,13 @@ function getLocs() {
 //         createdAt:Date.now(),
 //         updatedAt:''
 
-//     }
-//     console.log(locs)
-//     storageService.saveToStorage(KEY,location)
+//     })
+//     console.log(locs);
 // }
 
 
 
+function getLocation(val) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${val}&key=AIzaSyAdNLoWWrE93TKnrDqU3IKEXctlJH-0aCI`)
+        .then(res => res.data.results[0]);
+}
