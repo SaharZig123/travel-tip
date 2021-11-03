@@ -1,3 +1,6 @@
+import { locService } from './loc.service.js'
+// import { storageService } from './storage-service.js'
+
 export const mapService = {
   initMap,
   addMarker,
@@ -15,7 +18,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
       zoom: 15,
     })
     console.log('Map!', gMap)
-    onMapClick(lat,lng)
+    getSelectedLocation(lat, lng)
   })
 }
 
@@ -47,7 +50,7 @@ function _connectGoogleApi() {
   })
 }
 
-function onMapClick(lat,lng) {
+function getSelectedLocation(lat, lng) {
   let infoWindow = new google.maps.InfoWindow({
     content: 'Click the map to get Lat/Lng!',
     position: { lat, lng },
@@ -61,5 +64,6 @@ function onMapClick(lat,lng) {
     })
     infoWindow.setContent(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2))
     infoWindow.open(gMap)
+    locService.saveLocation(mapsMouseEvent.latLng.toJSON())
   })
 }

@@ -1,5 +1,6 @@
 export const locService = {
-    getLocs
+    getLocs,
+    saveLocation
 }
 
 // {id, name, lat, lng, weather, createdAt, updatedAt}
@@ -11,6 +12,20 @@ function getLocs() {
             resolve(locs);
         }, 2000)
     });
+}
+
+function saveLocation(position){
+    locs.push({
+        id:0,
+        name:prompt("location name"),
+        lat:position.lat,
+        lng:position.lng,
+        weather:'',
+        createdAt:Date.now(),
+        updatedAt:''
+
+    })
+    console.log(locs);
 }
 
 
