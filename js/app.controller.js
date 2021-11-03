@@ -7,6 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onSearchLocation = onSearchLocation;
+window.onDeleteLocation = onDeleteLocation;
 
 function onInit() {
   mapService
@@ -31,10 +32,13 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-  let strHtml = `<tr><td>Place Name</td><td>Place Id</td><td>lat</td><td>lng</td></tr>`;
+  let strHtml = `<tr><td>Place Name</td><td>Place Id</td><td>lat</td><td>lng</td><td colspan="2">Actions</td></tr>`;
   locService.getLocs().then((locs) => {
     locs.forEach(loc => {
-      strHtml += `<tr><td>${loc.name}</td><td>${loc.id}</td><td>${loc.lat}</td><td>${loc.lng}</td></tr>`;
+      strHtml += `<tr><td>${loc.name}</td><td>${loc.id}</td><td>${loc.lat}</td><td>${loc.lng}</td>
+      <td><button onclick="onPanTo(${loc.lat},${loc.lng})">Go!</button></td>
+      <td><button onclick="onDeleteLocation('${loc.id}')">Delete</button></td>
+      </tr>`;
     })
     document.querySelector('.locs').innerHTML = strHtml;
   })
@@ -54,20 +58,24 @@ function onGetUserPos() {
       console.log('err!!!', err)
     })
 }
-function onPanTo() {
+function onPanTo(lat, lng) {
   console.log('Panning the Map');
-  mapService.panTo(35.6895, 139.6917);
+  mapService.panTo(lat, lng);
 }
 
 function onSearchLocation() {
   let searchWords = document.querySelector('.search-input').value;
-  console.log(searchWords);
   console.log(locService.getLocation(searchWords).then(res => res));
   let searchRes = locService.getLocation(searchWords);
   searchRes.then(res => res.geometry.location)
     .then(res => mapService.panTo(res));
   document.querySelector('.search-input').value = '';
   searchRes.then(res => locService.addToLocs(res));
+}
+
+function onDeleteLocation(id) {
+  locService.deleteLocation(id);
+  onGetLocs();
 }
 
 
