@@ -3,8 +3,13 @@ export const locService = {
     saveLocation
 }
 
+import { storageService } from './storage-service.js'
+
+const KEY='My Locations'
+
+
 // {id, name, lat, lng, weather, createdAt, updatedAt}
-const locs = []
+const locs = storageService.loadFromStorage(KEY) || []
 
 function getLocs() {
     return new Promise((resolve, reject) => {
@@ -14,19 +19,21 @@ function getLocs() {
     });
 }
 
-function saveLocation(position){
-    locs.push({
-        id:0,
-        name:prompt("location name"),
-        lat:position.lat,
-        lng:position.lng,
-        weather:'',
-        createdAt:Date.now(),
-        updatedAt:''
+// function saveLocation(position){
+  
+//     let location={
+//         id:0,
+//         name:prompt("location name"),
+//         lat:position.lat,
+//         lng:position.lng,
+//         weather:'',
+//         createdAt:Date.now(),
+//         updatedAt:''
 
-    })
-    console.log(locs);
-}
+//     }
+//     console.log(locs)
+//     storageService.saveToStorage(KEY,location)
+// }
 
 
 

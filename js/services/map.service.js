@@ -1,5 +1,5 @@
 import { locService } from './loc.service.js'
-// import { storageService } from './storage-service.js'
+
 
 export const mapService = {
   initMap,
@@ -64,6 +64,6 @@ function getSelectedLocation(lat, lng) {
     })
     infoWindow.setContent(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2))
     infoWindow.open(gMap)
-    locService.saveLocation(mapsMouseEvent.latLng.toJSON())
+    // locService.saveLocation(mapsMouseEvent.latLng.toJSON())
   })
 }
